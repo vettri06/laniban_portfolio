@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    height: 100%;
+    background-color: #04070d;
+  }
+
+  #root {
+    min-height: 100%;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body {
+    min-height: 100%;
+    min-height: 100dvh;
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Subtle Grain Texture from home page */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+}
+
+:root, .dark {
+  /* Match the home page dark theme exactly */
+  --background: 220 53% 3%; /* #04070d */
+  --foreground: 215 28% 91%; /* #e2e8f0 */
+  --card: 219 40% 10%; /* #0f1623 */
+  --card-foreground: 215 28% 91%;
+  --popover: 219 40% 10%;
+  --popover-foreground: 215 28% 91%;
+  
+  --primary: 190 100% 50%; /* #00d4ff (accent cyan) */
+  --primary-foreground: 220 53% 3%; /* dark text on primary */
+  
+  --secondary: 221 44% 7%; /* #0a0f1a */
+  --secondary-foreground: 215 28% 91%;
+  
+  --muted: 215 25% 27%; /* #334155 */
+  --muted-foreground: 215 16% 47%; /* #64748b */
+  
+  --accent: 190 100% 50%;
+  --accent-foreground: 220 53% 3%;
+  
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  
+  --border: 215 20% 15%; /* subtle white border */
+  --input: 215 20% 15%;
+  --ring: 190 100% 50%;
+  
+  --radius: 0.5rem;
+}

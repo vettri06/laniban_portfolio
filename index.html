@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LANIBAN M | AI & Computing Portfolio</title>
+    <meta name="description" content="Portfolio of LANIBAN M - AI Developer and Computer Science Engineer.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" href="/icon.png">
+    
+    <style>
+        :root {
+            /* Color Palette */
+            --bg-deep: #04070d;
+            --bg-surface: #0a0f1a;
+            --bg-card: #0f1623;
+            --bg-card-hover: #141d2e;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #7c3aed;
+            --accent-green: #10b981;
+            --accent-glow-cyan: rgba(0, 212, 255, 0.12);
+            --accent-glow-purple: rgba(124, 58, 237, 0.12);
+            --text-primary: #e2e8f0;
+            --text-secondary: #64748b;
+            --text-muted: #334155;
+            --border-subtle: rgba(255, 255, 255, 0.05);
+            --border-normal: rgba(255, 255, 255, 0.09);
+            
+            /* Layout */
+            --max-width: 1200px;
+            --section-padding-y: clamp(80px, 10vw, 140px);
+            --container-padding-x: clamp(20px, 5vw, 60px);
+            
+            /* Typography Scale */
+            --h1: clamp(48px, 8vw, 88px);
+            --h2: clamp(28px, 4vw, 42px);
+            --h3: 18px;
+            --body: 16px;
+            --small: 13px;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        body {
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Subtle Grain Texture */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Layout Helpers */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--container-padding-x);
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        /* Typographic Styles */
+        h1, h2, h3 {
+            line-height: 1.1;
+            font-weight: 900;
+        }
+
+        h1 { font-size: var(--h1); }
+        h2 { font-size: var(--h2); font-weight: 700; }
+        h3 { font-size: var(--h3); font-weight: 600; }
+
+        .mono { font-family: var(--mono); font-size: var(--small); }
+
+        /* Section Headings */
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 600;
+            font-size: var(--small);
+            margin-bottom: 16px;
+            font-family: var(--mono);
+        }
+
+        .section-label::before {
+            content: "";
+            width: 1px;
+            height: 20px;
+            background: var(--accent-cyan);
+        }
+
+        .section-title {
+            margin-bottom: 24px;
+            max-width: 800px;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 48px;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 72px;
+            display: flex;
+            align-items: center;
+            padding: 0 40px; /* Add explicit padding to edges */
+        }
+
+        nav.scrolled {
+            height: 56px;
+            background: rgba(10, 15, 26, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 100%; /* Override standard container max-width for navbar */
+            padding: 0; /* Remove container padding inside nav */
+        }
+
+        .logo {
+            font-family: var(--mono);
+            color: var(--accent-cyan);
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: var(--small);
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .btn-resume {
+            padding: 8px 16px;
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: var(--small);
+            font-family: var(--mono);
+            transition: all 0.2s;
+        }
+
+        .btn-resume:hover {
+            background: var(--accent-glow-cyan);
+            box-shadow: 0 0 20px var(--accent-glow-cyan);
+        }
+
+        /* Mobile Nav */
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .mobile-toggle span {
+            width: 24px;
+            height: 1px;
+            background: var(--text-primary);
+            transition: 0.3s;
+        }
+
+        /* Custom Cursor */
+        .cursor-follower {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 1.5px solid var(--accent-cyan);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out, width 0.3s, height 0.3s, background 0.3s;
+            display: block;
+        }
+
+        @media (pointer: coarse) {
+            .cursor-follower { display: none; }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-family: var(--mono);
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--accent-cyan);
+            color: var(--bg-deep);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--border-normal);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--text-secondary);
+        }
+
+        /* Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Particles */
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Hero Section */
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 72px;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero-greeting {
+            font-family: var(--mono);
+            color: var(--accent-cyan);
+            margin-bottom: 16px;
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        .hero-name {
+            font-size: var(--h1);
+            margin-bottom: 24px;
+            background: linear-gradient(to bottom, #fff, #999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-typing {
+            font-size: var(--h2);
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            min-height: 1.2em;
+        }
+
+        .hero-typing span {
+            color: var(--text-primary);
+        }
+
+        .hero-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1em;
+            background: var(--accent-cyan);
+            margin-left: 4px;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .hero-description {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            max-width: 600px;
+            margin: 0 auto 48px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 64px;
+        }
+
+        .hero-socials {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+        }
+
+        .social-link {
+            color: var(--text-secondary);
+            transition: 0.3s;
+        }
+
+        .social-link:hover {
+            color: var(--accent-cyan);
+            transform: translateY(-3px);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-muted);
+            font-size: var(--small);
+            font-family: var(--mono);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .scroll-hint:hover {
+            color: var(--text-secondary);
+        }
+
+        .scroll-hint svg {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .about-text p {
+            margin-bottom: 24px;
+            color: var(--text-secondary);
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .stat-item .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 4px;
+            font-family: var(--mono);
+        }
+
+        .stat-item .stat-label {
+            color: var(--text-secondary);
+            font-size: var(--small);
+            font-family: var(--mono);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Terminal UI */
+        .terminal {
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid var(--border-normal);
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .terminal-header {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 16px;
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .terminal-body {
+            padding: 24px;
+            font-family: var(--mono);
+            font-size: 14px;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+        }
+
+        .terminal-body .cmd { color: var(--accent-cyan); }
+        .terminal-body .output { color: var(--text-secondary); }
+        .terminal-body .highlight { color: var(--accent-purple); }
+
+        /* Text Reveal Mask Animation */
+        .reveal-mask {
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-mask.visible {
+            clip-path: inset(0 0 0 0);
+        }
+
+        /* 3D Flip Card for Certifications */
+        .certification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--grid-gap);
+        }
+
+        .cert-card {
+            perspective: 1000px;
+            height: 140px;
+            cursor: pointer;
+        }
+
+        .cert-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .cert-card:hover .cert-inner {
+            transform: rotateX(180deg);
+        }
+
+        .cert-front, .cert-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: var(--bg-card);
+            border: 1px solid var(--border-normal);
+            border-radius: 8px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cert-back {
+            transform: rotateX(180deg);
+            background: var(--bg-card-hover);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
+        }
+
+        .cert-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background: rgba(0, 212, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-cyan);
+            flex-shrink: 0;
+        }
+
+        .cert-info h3 { font-size: 15px; margin-bottom: 4px; }
+        .cert-info p { font-size: 12px; color: var(--text-secondary); font-family: var(--mono); }
+        .cert-year { font-size: 10px; font-family: var(--mono); color: var(--text-muted); }
+
+        .cert-back h4 { font-size: 13px; color: var(--accent-cyan); font-family: var(--mono); margin-bottom: 4px; }
+        .cert-back p { font-size: 11px; color: var(--text-secondary); }
+
+        @media (max-width: 992px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--grid-gap);
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-normal);
+            padding: 32px;
+            border-radius: 12px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .skill-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-purple), transparent);
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: var(--bg-card-hover);
+        }
+
+        .skill-card:hover::before {
+            opacity: 1;
+        }
+
+        .skill-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+            color: var(--text-primary);
+        }
+
+        .skill-card h3 svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .skill-item {
+            width: 100%;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: var(--small);
+            font-family: var(--mono);
+        }
+
+        .skill-name { color: var(--text-primary); }
+        .skill-percentage { color: var(--text-secondary); }
+
+        .skill-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            width: 0;
+            background: var(--accent-cyan);
+            border-radius: 2px;
+            transition: width 1.5s cubic-bezier(0.1, 0.5, 0.1, 1);
+        }
+
+        /* Color Overrides for Skills */
+        .skill-card.purple .skill-progress { background: var(--accent-purple); }
+        .skill-card.purple .skill-card::before { background: linear-gradient(90deg, transparent, var(--accent-purple), transparent); }
+        .skill-card.green .skill-progress { background: var(--accent-green); }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--grid-gap);
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-normal);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            transform-style: preserve-3d;
+        }
+
+        .project-card.featured {
+            grid-column: span 3;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .project-content {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .project-badge {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-family: var(--mono);
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .project-icon {
+            color: var(--accent-cyan);
+        }
+
+        .project-title {
+            margin-bottom: 12px;
+            font-size: 1.5rem;
+        }
+
+        .project-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 24px;
+            flex: 1;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .tech-pill {
+            font-size: 10px;
+            font-family: var(--mono);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-secondary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .project-highlights {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .project-highlights li {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .project-highlights li::before {
+            content: "→";
+            color: var(--accent-cyan);
+        }
+
+        .project-btn {
+            margin-top: auto;
+            align-self: flex-start;
+        }
+
+        @media (max-width: 1200px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .project-card.featured {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            .project-card.featured {
+                grid-column: span 1;
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Timeline Section */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 2px;
+            width: 1px;
+            height: 0;
+            background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-purple), transparent);
+            transition: height 2s ease-out;
+        }
+
+        .timeline.active::before {
+            height: 100%;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 48px;
+            margin-bottom: 64px;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -4px;
+            top: 10px;
+            width: 12px;
+            height: 12px;
+            background: var(--bg-deep);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 50%;
+            z-index: 1;
+            transform: scale(0);
+            transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .timeline.active .timeline-item::before {
+            transform: scale(1);
+        }
+
+        .timeline-date {
+            font-family: var(--mono);
+            font-size: var(--small);
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .timeline-content {
+            background: var(--bg-card);
+            padding: 24px;
+            border-radius: 8px;
+            border: 1px solid var(--border-normal);
+        }
+
+        .timeline-title {
+            margin-bottom: 4px;
+            font-size: 1.1rem;
+        }
+
+        .timeline-org {
+            display: block;
+            font-size: var(--small);
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .timeline-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .timeline-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .timeline-tag {
+            font-size: 10px;
+            font-family: var(--mono);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-secondary);
+            padding: 2px 6px;
+            border-radius: 2px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        /* Blog Section */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--grid-gap);
+        }
+
+        .blog-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-normal);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 32px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-6px);
+            background: var(--bg-card-hover);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .blog-title {
+            margin-bottom: 16px;
+            font-size: 1.25rem;
+            line-height: 1.3;
+        }
+
+        .blog-excerpt {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 24px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .blog-tags {
+            display: flex;
+            gap: 12px;
+        }
+
+        .blog-tag {
+            color: var(--text-muted);
+            font-size: 11px;
+            font-family: var(--mono);
+        }
+
+        /* Status Section */
+        .status-section {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 40px 0;
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .status-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .status-emoji { font-size: 1.5rem; }
+        .status-info .label { font-size: 11px; font-family: var(--mono); color: var(--text-muted); text-transform: uppercase; display: block; }
+        .status-info .value { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+
+        /* Contact Section */
+        .contact-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .contact-content::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-glow-cyan) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .contact-title {
+            margin-bottom: 24px;
+            white-space: pre-wrap;
+        }
+
+        .contact-subtitle {
+            margin-bottom: 48px;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .email-btn {
+            font-size: 1.25rem;
+            padding: 20px 48px;
+        }
+
+        .secondary-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .link-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-normal);
+            padding: 12px 24px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-family: var(--mono);
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .link-card:hover {
+            border-color: var(--accent-cyan);
+            background: var(--bg-card-hover);
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 0 40px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            text-align: center;
+        }
+
+        .footer-logo-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-tagline {
+            color: var(--text-muted);
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        .footer-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .footer-nav a:hover { color: var(--accent-cyan); }
+
+        .footer-bottom {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .back-to-top {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .back-to-top:hover { color: var(--accent-cyan); }
+
+        @media (max-width: 768px) {
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            .secondary-links {
+                flex-direction: column;
+                width: 100%;
+            }
+            .link-card {
+                justify-content: center;
+            }
+        }
+    </style>
+  </head>
+<body>
+    <div class="cursor-follower" id="cursor"></div>
+
+    <nav id="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">Portfolio</a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#experience">Experience</a>
+                <a href="#certifications">Certificates</a>
+                <a href="#blog">Blog</a>
+                <a href="#contact">Contact</a>
+                <a href="/resume/resume.pdf" download class="btn-resume">Resume</a>
+            </div>
+            <div class="mobile-toggle" id="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="container hero-content">
+            <span class="hero-greeting reveal">Hello, I'm</span>
+            <h1 class="hero-name reveal">LANIBAN M</h1>
+            <div class="hero-typing reveal">
+                <span id="typed-text"></span><span class="hero-cursor"></span>
+            </div>
+            <p class="hero-description reveal">
+                A passionate Computer Science student building intelligent systems at the intersection of AI, data, and emerging technologies. I turn complex problems into clean, working code.
+            </p>
+            <div class="hero-actions reveal">
+                <a href="#projects" class="btn btn-primary magnetic">View My Work</a>
+                <a href="/resume/resume.pdf" download class="btn btn-secondary magnetic">Download Resume</a>
+            </div>
+            <div class="hero-socials reveal">
+                <a href="https://github.com/LanibanCOD02" class="social-link" aria-label="GitHub">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                </a>
+                <a href="https://linkedin.com/in/laniban-cse" class="social-link" aria-label="LinkedIn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </a>
+                <a href="mailto:laniban321@gmail.com" class="social-link" aria-label="Email">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </a>
+            </div>
+        </div>
+        <a href="#about" class="scroll-hint">
+            <span>Scroll to explore</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"></path></svg>
+        </a>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <span class="section-label reveal">About Me</span>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2 class="section-title reveal reveal-mask" id="about-heading">Driven by curiosity,<br>built on code.</h2>
+                    <p class="reveal">I am a Computer Science student driven by a deep passion for Artificial Intelligence and advanced computing systems. My work centers on building intelligent, efficient, and scalable solutions to real-world problems.</p>
+                    <p class="reveal">I actively explore domains such as Machine Learning, Quantum Computing, and FinTech systems — combining strong programming skills with rigorous analytical thinking.</p>
+                    <p class="reveal">Beyond academics, I spend time contributing to open-source projects, exploring research papers, and building projects that sit at the edge of what's currently possible.</p>
+                    
+                    <div class="about-stats">
+                        <div class="stat-item reveal">
+                            <span class="stat-value" data-target="6">0</span>
+                            <span class="stat-label">Projects Built</span>
+                        </div>
+                        <div class="stat-item reveal">
+                            <span class="stat-value" data-target="15">0</span>
+                            <span class="stat-label">Technologies</span>
+                        </div>
+                        <div class="stat-item reveal">
+                            <span class="stat-value" data-target="23">0</span>
+                            <span class="stat-label">Certifications</span>
+                        </div>
+                        <div class="stat-item reveal">
+                            <span class="stat-value" data-target="1">0</span>
+                            <span class="stat-label">Active Building</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual reveal">
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dot dot-red"></div>
+                            <div class="terminal-dot dot-yellow"></div>
+                            <div class="terminal-dot dot-green"></div>
+                        </div>
+                        <div class="terminal-body">
+<span class="cmd">$ python laniban.py</span>
+
+<span class="output">> Loading profile...</span>
+<span class="output">> name        :</span> <span class="highlight">LANIBAN M</span>
+<span class="output">> role        :</span> <span class="highlight">AI Developer</span>
+<span class="output">> focus       :</span> <span class="highlight">ML, Quantum, FinTech</span>
+<span class="output">> status      :</span> <span class="highlight">Building & Learning</span>
+<span class="output">> open_to     :</span> <span class="highlight">Internships</span>
+<span class="output">> location    :</span> <span class="highlight">India</span>
+<span class="output">> coffee_level:</span> <span class="highlight">██████████ 100%</span>
+
+<span class="output">Profile loaded successfully.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="container">
+            <span class="section-label reveal">Skills</span>
+            <h2 class="section-title reveal reveal-mask">What I work with</h2>
+            <p class="section-subtitle reveal">A toolkit built through projects, courses, and relentless tinkering.</p>
+            
+            <div class="skills-grid">
+                <!-- Languages -->
+                <div class="skill-card reveal">
+                    <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg> Languages</h3>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <div class="skill-info"><span class="skill-name">Python</span><span class="skill-percentage">85%</span></div>
+                            <div class="skill-bar"><div class="skill-progress" data-width="85%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span class="skill-name">C++</span><span class="skill-percentage">70%</span></div>
+                            <div class="skill-bar"><div class="skill-progress" data-width="70%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span class="skill-name">Java</span><span class="skill-percentage">65%</span></div>
+                            <div class="skill-bar"><div class="skill-progress" data-width="65%"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- AI / ML -->
+                <div class="skill-card purple reveal">
+                    <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg> AI / ML</h3>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <div class="skill-info"><span class="skill-name">Machine Learning</span><span class="skill-percentage">75%</span></div>
+                            <div class="skill-bar"><div class="skill-progress" data-width="75%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span class="skill-name">NumPy & Pandas</span><span class="skill-percentage">80%</span></div>
+                            <div class="skill-bar"><div class="skill-progress" data-width="80%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span class="skill-name">Scikit-learn</span><span class="skill-percentage">72%</span></div>
+                            <div class="skill-bar"><div class="skill-progress" data-width="72%"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Web Dev -->
+                <div class="skill-card green reveal">
+                    <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Web Dev</h3>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <div class="skill-info"><span class="skill-name">HTML & CSS</span><span class="skill-percentage">80%</span></div>
+                            <div class="skill-bar"><div class="skill-progress" data-width="80%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span class="skill-name">JavaScript</span><span class="skill-percentage">60%</span></div>
+                            <div class="skill-bar"><div class="skill-progress" data-width="60%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span class="skill-name">Responsive Design</span><span class="skill-percentage">75%</span></div>
+                            <div class="skill-bar"><div class="skill-progress" data-width="75%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <span class="section-label reveal">Projects</span>
+            <h2 class="section-title reveal reveal-mask">Things I've built</h2>
+            <p class="section-subtitle reveal">From machine learning pipelines to real-time embedded systems — here's what I've shipped.</p>
+            
+            <div class="projects-grid">
+                <!-- Featured Project 1 -->
+                <div class="project-card featured tilt reveal">
+                    <div class="project-content">
+                        <div class="project-header">
+                            <span class="project-badge">Machine Learning</span>
+                            <div class="project-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            </div>
+                        </div>
+                        <h3 class="project-title">AI-Based Prediction System</h3>
+                        <p class="project-desc">A complete ML pipeline that processes raw data, extracts features, trains a classification model, and predicts outcomes with measurable accuracy improvements over baseline methods.</p>
+                        <div class="project-tech">
+                            <span class="tech-pill">Python</span>
+                            <span class="tech-pill">Scikit-learn</span>
+                            <span class="tech-pill">Pandas</span>
+                            <span class="tech-pill">NumPy</span>
+                        </div>
+                        <ul class="project-highlights">
+                            <li>End-to-end ML pipeline</li>
+                            <li>Multi-model comparison</li>
+                            <li>Accuracy visualization</li>
+                        </ul>
+                        <a href="https://github.com/LanibanCOD02" class="btn btn-secondary project-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                            Codebase
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card tilt reveal">
+                    <div class="project-content">
+                        <div class="project-header">
+                            <span class="project-badge">Embedded Systems</span>
+                            <div class="project-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="15" x2="23" y2="15"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="15" x2="4" y2="15"></line></svg>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Smart IoT Monitor</h3>
+                        <p class="project-desc">Real-time monitoring system using ESP32 with OLED screen and WiFi data transmission.</p>
+                        <div class="project-tech">
+                            <span class="tech-pill">ESP32</span>
+                            <span class="tech-pill">C++</span>
+                            <span class="tech-pill">WiFi</span>
+                        </div>
+                        <a href="https://github.com/LanibanCOD02" class="btn btn-secondary project-btn">GitHub</a>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card tilt reveal">
+                    <div class="project-content">
+                        <div class="project-header">
+                            <span class="project-badge">Data Science</span>
+                            <div class="project-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Data Dashboard</h3>
+                        <p class="project-desc">Interactive visualizations and statistical insights from public datasets.</p>
+                        <div class="project-tech">
+                            <span class="tech-pill">Pandas</span>
+                            <span class="tech-pill">Seaborn</span>
+                            <span class="tech-pill">Matplotlib</span>
+                        </div>
+                        <a href="https://github.com/LanibanCOD02" class="btn btn-secondary project-btn">GitHub</a>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card tilt reveal">
+                    <div class="project-content">
+                        <div class="project-header">
+                            <span class="project-badge">CS Fundamentals</span>
+                            <div class="project-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Algorithm Visualizer</h3>
+                        <p class="project-desc">Interactive tool for sorting and searching algorithms step by step.</p>
+                        <div class="project-tech">
+                            <span class="tech-pill">JS</span>
+                            <span class="tech-pill">Canvas</span>
+                        </div>
+                        <a href="https://github.com/LanibanCOD02" class="btn btn-secondary project-btn">GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <div class="container">
+            <span class="section-label reveal">Experience</span>
+            <h2 class="section-title reveal reveal-mask">The journey so far</h2>
+            
+            <div class="timeline" id="timeline">
+                <div class="timeline-item reveal">
+                    <span class="timeline-date">2023 — Present</span>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">B.Tech in Computer Science Engineering</h3>
+                        <span class="timeline-org">University (India)</span>
+                        <p class="timeline-desc">Core focus on algorithms, AI fundamentals, DBMS, and OS. Active engagement in technical clubs.</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag">AI/ML</span>
+                            <span class="timeline-tag">CS Core</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item reveal">
+                    <span class="timeline-date">2024</span>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Machine Learning Certification</h3>
+                        <span class="timeline-org">Coursera / NPTEL</span>
+                        <p class="timeline-desc">Comprehensive ML course covering supervised and unsupervised learning.</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag">Python</span>
+                            <span class="timeline-tag">Scikit-learn</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item reveal">
+                    <span class="timeline-date">2025</span>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Exploring Quantum Computing</h3>
+                        <span class="timeline-org">Self-Study</span>
+                        <p class="timeline-desc">Studying qubits, quantum gates, and simulation using Qiskit.</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag">Quantum</span>
+                            <span class="timeline-tag">Qiskit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certifications">
+        <div class="container">
+            <span class="section-label reveal">Certifications</span>
+            <h2 class="section-title reveal reveal-mask">Credentials & Achievements</h2>
+            <p class="section-subtitle reveal">View my full collection of 23 certificates and achievements.</p>
+            
+            <div style="text-align: center; margin-bottom: 48px;">
+                <a href="certificates.html" class="btn btn-primary magnetic reveal" style="padding: 16px 32px; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 12px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    View All Certificates Gallery
+                </a>
+            </div>
+            
+            <div class="certification-grid">
+                <!-- Cert 1 -->
+                <div class="cert-card reveal">
+                    <div class="cert-inner">
+                        <div class="cert-front">
+                            <div class="cert-icon" style="color: var(--accent-purple); background: rgba(124, 58, 237, 0.1);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            </div>
+                            <div class="cert-info">
+                                <h3>Machine Learning</h3>
+                                <p>Coursera / NPTEL</p>
+                                <span class="cert-year">2024</span>
+                            </div>
+                        </div>
+                        <div class="cert-back">
+                            <h4>Skills Covered</h4>
+                            <p>Regression, Clustering, SVM, Random Forest, Scikit-learn</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cert 2 -->
+                <div class="cert-card reveal">
+                    <div class="cert-inner">
+                        <div class="cert-front">
+                            <div class="cert-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+                            </div>
+                            <div class="cert-info">
+                                <h3>Python for Data Science</h3>
+                                <p>Online Platform</p>
+                                <span class="cert-year">2024</span>
+                            </div>
+                        </div>
+                        <div class="cert-back">
+                            <h4>Skills Covered</h4>
+                            <p>Pandas, NumPy, Matplotlib, Data Wrangling, EDA</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cert 3 -->
+                <div class="cert-card reveal">
+                    <div class="cert-inner">
+                        <div class="cert-front">
+                            <div class="cert-icon" style="color: var(--accent-green); background: rgba(16, 185, 129, 0.1);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line></svg>
+                            </div>
+                            <div class="cert-info">
+                                <h3>IoT & Embedded</h3>
+                                <p>Technical Workshop</p>
+                                <span class="cert-year">2025</span>
+                            </div>
+                        </div>
+                        <div class="cert-back">
+                            <h4>Skills Covered</h4>
+                            <p>ESP32, Sensor Fusion, WebSocket, C++, IoT Protocols</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog">
+        <div class="container">
+            <span class="section-label reveal">Thoughts</span>
+            <h2 class="section-title reveal reveal-mask">What I'm thinking about</h2>
+            
+            <div class="blog-grid">
+                <div class="blog-card reveal">
+                    <div class="blog-meta">
+                        <span>FUTURE TECH</span>
+                        <span>MARCH 2025</span>
+                    </div>
+                    <h3 class="blog-title">Why Quantum Computing Will Redefine AI</h3>
+                    <p class="blog-excerpt">Quantum algorithms like Grover's search offer quadratic speedups for ML optimization problems. Here's why I think the intersection of QC and AI is the most exciting space to watch.</p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">#Quantum</span>
+                        <span class="blog-tag">#AI</span>
+                    </div>
+                </div>
+                <div class="blog-card reveal" style="border-left-color: var(--accent-purple);">
+                    <div class="blog-meta">
+                        <span>ML JOURNEY</span>
+                        <span>JANUARY 2025</span>
+                    </div>
+                    <h3 class="blog-title">Building My First ML Pipeline From Scratch</h3>
+                    <p class="blog-excerpt">Skipping the tutorials and building a real prediction system taught me more about data preprocessing than any course ever could.</p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">#MachineLearning</span>
+                        <span class="blog-tag">#Python</span>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 40px; color: var(--text-muted); font-family: var(--mono); font-size: 12px;" class="reveal">Coming Soon — Publishing More Insights</p>
+        </div>
+    </section>
+
+    <div class="status-section">
+        <div class="container">
+            <div class="status-grid">
+                <div class="status-item reveal">
+                    <div class="status-info">
+                        <span class="label">Building</span>
+                        <span class="value">Qiskit simulations</span>
+                    </div>
+                </div>
+                <div class="status-item reveal">
+                    <div class="status-info">
+                        <span class="label">Learning</span>
+                        <span class="value">Advanced ML — Transformers</span>
+                    </div>
+                </div>
+                <div class="status-item reveal">
+                    <div class="status-info">
+                        <span class="label">Researching</span>
+                        <span class="value">Quantum Computing x ML</span>
+                    </div>
+                </div>
+                <div class="status-item reveal">
+                    <div class="status-info">
+                        <span class="label">Goal 2025</span>
+                        <span class="value">AI/ML Internship</span>
+                    </div>
+                </div>
+                <div class="status-item reveal">
+                    <div class="status-info">
+                        <span class="label">Vibe</span>
+                        <span class="value">Lo-fi focus sessions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <span class="section-label reveal" style="justify-content: center; border: none;">Contact</span>
+                <h2 class="contact-title reveal reveal-mask">Let's build something<br>together.</h2>
+                <p class="contact-subtitle reveal">Whether it's a project collab, research opportunity, or just a conversation about AI — my inbox is always open.</p>
+                
+                <div class="contact-links">
+                    <a href="mailto:laniban321@gmail.com" class="btn btn-primary email-btn magnetic reveal">laniban321@gmail.com</a>
+                    <div class="secondary-links">
+                        <a href="https://github.com/LanibanCOD02" class="link-card magnetic reveal">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                            GitHub
+                        </a>
+                        <a href="https://linkedin.com/in/laniban-cse" class="link-card magnetic reveal">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                            LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo-group">
+                <a href="#" class="logo">LANIBAN M</a>
+                <span class="footer-tagline">Where Code Meets Intelligence</span>
+            </div>
+            <div class="footer-nav">
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#certifications">Certificates</a>
+                <a href="#blog">Blog</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2025 LANIBAN M. Designed & Built with caffeine.</span>
+                <a href="#" class="back-to-top">
+                    Back to top
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* Part 1: Particle Canvas */
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null };
+        let isVisible = true;
+
+        document.addEventListener('visibilitychange', () => {
+            isVisible = !document.hidden;
+        });
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            const particleCount = window.innerWidth < 768 ? 40 : 80;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: Math.random() * 2 + 1
+                });
+            }
+        }
+
+        function drawParticles() {
+            if (!isVisible) {
+                requestAnimationFrame(drawParticles);
+                return;
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(0, 212, 255, 0.5)';
+            ctx.strokeStyle = 'rgba(0, 212, 255, 0.1)';
+
+            particles.forEach((p, i) => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                // Mouse Repulsion
+                if (mouse.x) {
+                    const dx = p.x - mouse.x;
+                    const dy = p.y - mouse.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 140) {
+                        p.x += dx / 100;
+                        p.y += dy / 100;
+                    }
+                }
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(drawParticles);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        window.addEventListener('mousemove', e => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        initCanvas();
+        drawParticles();
+
+        /* Part 2: Typing Animation */
+        const typedTextSpan = document.getElementById('typed-text');
+        const phrases = ["AI Developer", "Computer Science Engineer", "ML Enthusiast", "Future Tech Builder"];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            if (isDeleting) {
+                charIndex--;
+            } else {
+                charIndex++;
+            }
+
+            typedTextSpan.textContent = currentPhrase.substring(0, charIndex);
+
+            let typeSpeed = isDeleting ? 40 : 80;
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                typeSpeed = 1800;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+        document.addEventListener('DOMContentLoaded', type);
+
+        /* Part 3: Custom Cursor */
+        const cursor = document.getElementById('cursor');
+        let cursorX = 0, cursorY = 0;
+        let targetX = 0, targetY = 0;
+
+        window.addEventListener('mousemove', e => {
+            targetX = e.clientX;
+            targetY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (targetX - cursorX) * 0.12;
+            cursorY += (targetY - cursorY) * 0.12;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.querySelectorAll('a, button, .tilt').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.width = '40px';
+                cursor.style.height = '40px';
+                cursor.style.background = 'var(--accent-glow-cyan)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.width = '20px';
+                cursor.style.height = '20px';
+                cursor.style.background = 'transparent';
+            });
+        });
+
+        window.addEventListener('mousedown', () => cursor.style.transform = 'translate(-50%, -50%) scale(0.7)');
+        window.addEventListener('mouseup', () => cursor.style.transform = 'translate(-50%, -50%) scale(1)');
+
+        /* Part 4: Magnetic Buttons */
+        document.querySelectorAll('.magnetic').forEach(btn => {
+            btn.addEventListener('mousemove', e => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                const radius = btn.classList.contains('email-btn') ? 100 : 80;
+                const pull = btn.classList.contains('email-btn') ? 0.4 : 0.35;
+                
+                const dist = Math.sqrt(x*x + y*y);
+                if (dist < radius) {
+                    btn.style.transform = `translate(${x * pull}px, ${y * pull}px)`;
+                } else {
+                    btn.style.transform = `translate(0, 0)`;
+                }
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = `translate(0, 0)`;
+            });
+        });
+
+        /* Part 5: Scroll Reveal & Stats Count */
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Stats counting
+                    if (entry.target.classList.contains('stat-item')) {
+                        const val = entry.target.querySelector('.stat-value');
+                        const target = parseInt(val.dataset.target);
+                        let current = 0;
+                        const timer = setInterval(() => {
+                            current += Math.ceil(target / 50);
+                            if (current >= target) {
+                                val.textContent = target + (target === 1 ? ' yr' : '+');
+                                clearInterval(timer);
+                            } else {
+                                val.textContent = current;
+                            }
+                        }, 40);
+                    }
+
+                    // Skills bars
+                    if (entry.target.classList.contains('skill-card')) {
+                        entry.target.querySelectorAll('.skill-progress').forEach(bar => {
+                            bar.style.width = bar.dataset.width;
+                        });
+                    }
+
+                    // Timeline line
+                    if (entry.target.id === 'timeline') {
+                        entry.target.classList.add('active');
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal, #timeline').forEach(el => observer.observe(el));
+
+        /* Part 6: Navbar Scroll */
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 60) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        /* Part 7: 3D Tilt Effect */
+        document.querySelectorAll('.tilt').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                
+                // Spot-light effect
+                card.style.background = `radial-gradient(circle at ${x}px ${y}px, var(--bg-card-hover) 0%, var(--bg-card) 80%)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0) rotateY(0)`;
+                card.style.background = `var(--bg-card)`;
+            });
+        });
+
+        /* Part 8: Mobile Menu */
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        mobileToggle.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.background = 'var(--bg-surface)';
+                navLinks.style.padding = '40px';
+                navLinks.style.borderBottom = '1px solid var(--border-subtle)';
+            }
+        });
+
+        /* Parallax Mouse Effect */
+        window.addEventListener('mousemove', e => {
+            const x = (window.innerWidth / 2 - e.clientX) / 50;
+            const y = (window.innerHeight / 2 - e.clientY) / 50;
+            const name = document.querySelector('.hero-name');
+            const desc = document.querySelector('.hero-description');
+            if (name) name.style.transform = `translate(${x}px, ${y}px)`;
+            if (desc) desc.style.transform = `translate(${x * 0.5}px, ${y * 0.5}px)`;
+        });
+    </script>
+</body>
+</html>
