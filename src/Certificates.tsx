@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Award, X, ChevronLeft, ChevronRight, ZoomIn, Loader2, ArrowLeft } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Link } from 'react-router-dom'
 
 interface Certificate {
   id: string
@@ -231,13 +232,13 @@ export default function Certificates() {
       {/* Header/Nav */}
       <header className="sticky top-0 z-30 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 h-14 flex items-center">
-          <a
-            href="/"
+          <Link
+            to="/"
             className="inline-flex items-center justify-center gap-2 text-sm font-medium transition-colors hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Home
-          </a>
+          </Link>
         </div>
       </header>
 

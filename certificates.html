@@ -1,13 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Certificates | LANIBAN M</title>
-    <link rel="icon" type="image/png" href="/icon.png">
-</head>
-<body>
-    <div id="root"></div>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+      :root {
+        /* Color Palette */
+        --bg-deep: #04070d;
+        --bg-surface: #0a0f1a;
+        --bg-card: #0f1623;
+        --bg-card-hover: #141d2e;
+        --accent-cyan: #00d4ff;
+        --accent-purple: #7c3aed;
+        --accent-green: #10b981;
+        --accent-glow-cyan: rgba(0, 212, 255, 0.12);
+        --accent-glow-purple: rgba(124, 58, 237, 0.12);
+        --text-primary: #e2e8f0;
+        --text-secondary: #64748b;
+        --text-muted: #334155;
+        --border-subtle: rgba(255, 255, 255, 0.05);
+        --border-normal: rgba(255, 255, 255, 0.09);
+        
+        /* Layout */
+        --max-width: 1200px;
+        --section-padding-y: clamp(80px, 10vw, 140px);
+        --container-padding-x: clamp(20px, 5vw, 60px);
+        
+        /* Typography Scale */
+        --h1: clamp(48px, 8vw, 88px);
+        --h2: clamp(28px, 4vw, 42px);
+        --h3: 18px;
+        --body: 16px;
+        --small: 13px;
+        --mono: 'JetBrains Mono', monospace;
+      }
+
+      /* Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg-deep);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+      
+      /* Loading State */
+      #root {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .loading {
+        text-align: center;
+        color: var(--text-secondary);
+      }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--border-normal);
+        border-top: 3px solid var(--accent-cyan);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <p>Loading Certificates...</p>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
-</body>
+  </body>
 </html>
