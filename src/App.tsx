@@ -4,7 +4,7 @@ import Home from './Home'
 
 export default function App() {
   return (
-    <Router>
+    <Router basename="/">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/certificates" element={<CertificatesPage />} />

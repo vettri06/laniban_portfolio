@@ -53,7 +53,14 @@ function LazyImage({
   }, [])
 
   return (
-    <div ref={imgRef} className={cn('relative overflow-hidden rounded-lg bg-muted', className)} onClick={onClick}>
+    <div
+      ref={imgRef}
+      className={cn(
+        'relative overflow-hidden rounded-lg border border-border/70 bg-muted transition-colors hover:border-primary/40',
+        className
+      )}
+      onClick={onClick}
+    >
       {!isLoaded && !error && (
         <div className="absolute inset-0 animate-pulse flex items-center justify-center">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -72,7 +79,7 @@ function LazyImage({
           onLoad={() => setIsLoaded(true)}
           onError={() => setError(true)}
           className={cn(
-            'w-full h-full object-cover cursor-pointer transition-all duration-300 hover:scale-105',
+            'h-full w-full cursor-pointer object-contain p-1 transition-all duration-300 sm:p-2',
             isLoaded ? 'opacity-100' : 'opacity-0'
           )}
         />
@@ -114,32 +121,32 @@ function Lightbox({
   }, [onClose, onPrev, onNext])
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-3 backdrop-blur-sm sm:p-4">
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-[101]"
+        className="absolute right-3 top-3 z-[101] rounded-full bg-white/10 p-2 transition-colors hover:bg-white/20 sm:right-4 sm:top-4"
       >
-        <X className="h-6 w-6 text-white" />
+        <X className="h-5 w-5 text-white sm:h-6 sm:w-6" />
       </button>
 
       <button
         onClick={onPrev}
         disabled={currentIndex === 0}
-        className="absolute left-4 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors disabled:opacity-30 z-[101]"
+        className="absolute bottom-4 left-4 z-[101] rounded-full bg-white/10 p-2 transition-colors hover:bg-white/20 disabled:opacity-30 sm:bottom-auto sm:left-4 sm:p-3"
       >
-        <ChevronLeft className="h-6 w-6 text-white" />
+        <ChevronLeft className="h-5 w-5 text-white sm:h-6 sm:w-6" />
       </button>
 
-      <div className="max-w-5xl max-h-[85vh] w-full flex flex-col items-center">
-        <div className="relative w-full h-full flex items-center justify-center">
+      <div className="flex max-h-[88vh] w-full max-w-5xl flex-col items-center">
+        <div className="relative flex h-full w-full items-center justify-center">
           <img
             src={certificate.src}
             alt={certificate.name}
-            className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl"
+            className="max-h-[74vh] max-w-full rounded-lg object-contain shadow-2xl sm:max-h-[80vh]"
           />
         </div>
-        <div className="mt-4 text-center">
-          <h3 className="text-lg font-medium text-white">{certificate.name}</h3>
+        <div className="mt-3 text-center sm:mt-4">
+          <h3 className="text-base font-medium text-white sm:text-lg">{certificate.name}</h3>
           <p className="text-xs text-white/40 mt-1">
             {currentIndex + 1} of {certificates.length}
           </p>
@@ -149,9 +156,9 @@ function Lightbox({
       <button
         onClick={onNext}
         disabled={currentIndex === certificates.length - 1}
-        className="absolute right-4 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors disabled:opacity-30 z-[101]"
+        className="absolute bottom-4 right-4 z-[101] rounded-full bg-white/10 p-2 transition-colors hover:bg-white/20 disabled:opacity-30 sm:bottom-auto sm:right-4 sm:p-3"
       >
-        <ChevronRight className="h-6 w-6 text-white" />
+        <ChevronRight className="h-5 w-5 text-white sm:h-6 sm:w-6" />
       </button>
     </div>
   )
@@ -183,10 +190,10 @@ function CertificateGrid({
   }, [visibleCount, certificates.length])
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
       {certificates.slice(0, visibleCount).map((cert, index) => (
         <div key={cert.id} className="relative group">
-          <div className="aspect-[4/3] rounded-lg shadow-md border border-border overflow-hidden">
+          <div className="aspect-[4/3] sm:aspect-[3/2] rounded-lg shadow-md overflow-hidden">
             <LazyImage
               src={cert.src}
               alt={cert.name}
@@ -194,8 +201,8 @@ function CertificateGrid({
               onClick={() => onCertificateClick(index)}
             />
           </div>
-          <div className="mt-3 text-center">
-            <h3 className="text-sm font-medium">{cert.name}</h3>
+          <div className="mt-2 text-center sm:mt-3">
+            <h3 className="text-sm font-medium sm:text-[0.95rem]">{cert.name}</h3>
           </div>
         </div>
       ))}
@@ -231,10 +238,10 @@ export default function Certificates() {
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       {/* Header/Nav */}
       <header className="sticky top-0 z-30 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-4 h-14 flex items-center">
+        <div className="flex h-14 w-full items-center justify-start px-3 sm:px-4 md:px-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center gap-2 text-sm font-medium transition-colors hover:text-primary"
+            className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Home
@@ -243,13 +250,13 @@ export default function Certificates() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl">
-        <div className="flex flex-col items-center text-center mb-10">
-          <div className="inline-flex items-center justify-center p-3 bg-primary/10 text-primary rounded-full mb-4">
-            <Award className="h-8 w-8" />
+      <main className="flex-1 px-3 py-6 sm:px-4 sm:py-8">
+        <div className="mb-8 flex flex-col items-center text-center sm:mb-10">
+          <div className="mb-3 inline-flex items-center justify-center rounded-full bg-primary/10 p-2.5 text-primary sm:mb-4 sm:p-3">
+            <Award className="h-7 w-7 sm:h-8 sm:w-8" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight mb-2">Certificates & Achievements</h1>
-          <p className="text-muted-foreground max-w-2xl">
+          <h1 className="mb-2 text-2xl font-bold tracking-tight sm:text-3xl">Certificates & Achievements</h1>
+          <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">
             Browse through my complete collection of {certificates.length} certificates and achievements.
             Click on any certificate to view it in full size.
           </p>
