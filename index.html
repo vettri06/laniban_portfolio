@@ -1909,8 +1909,12 @@
                 const y = e.clientY - rect.top;
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
+                
+                // Featured cards (big box) need much less tilt, small ones need more (like before)
+                const intensity = card.dataset.intensity || (card.classList.contains('featured') ? 120 : 15);
+                
+                const rotateX = (y - centerY) / intensity;
+                const rotateY = (centerX - x) / intensity;
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
                 
                 // Spot-light effect
