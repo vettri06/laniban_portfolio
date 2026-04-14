@@ -95,5 +95,14 @@
       </div>
     </div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Fallback if React fails to load
+      setTimeout(function() {
+        var root = document.getElementById('root');
+        if (root && root.querySelector('.loading')) {
+          root.innerHTML = '<div style="text-align:center;padding:40px;color:#e2e8f0;"><h2>Loading took too long</h2><p><a href="/" style="color:#00d4ff;">Return to Home</a></p></div>';
+        }
+      }, 10000);
+    </script>
   </body>
 </html>

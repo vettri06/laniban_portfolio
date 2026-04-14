@@ -1,8 +1,18 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
+    {
+      "source": "/certificates",
+      "destination": "/certificates.html"
+    },
+    {
+      "source": "/certificates/:match*",
+      "destination": "/certificates.html"
+    },
     {
       "source": "/((?!.*\\.).*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "cleanUrls": true
 }

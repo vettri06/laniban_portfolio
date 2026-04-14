@@ -35,6 +35,7 @@
             --max-width: 1200px;
             --section-padding-y: clamp(80px, 10vw, 140px);
             --container-padding-x: clamp(20px, 5vw, 60px);
+            --grid-gap: 24px;
             
             /* Typography Scale */
             --h1: clamp(48px, 8vw, 88px);
@@ -226,6 +227,29 @@
             transition: 0.3s;
         }
 
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: var(--bg-surface);
+                padding: 40px;
+                border-bottom: 1px solid var(--border-subtle);
+                gap: 24px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+        }
+
         /* Custom Cursor */
         .cursor-follower {
             position: fixed;
@@ -238,6 +262,7 @@
             transform: translate(-50%, -50%);
             transition: transform 0.1s ease-out, width 0.3s, height 0.3s, background 0.3s;
             display: block;
+            will-change: transform, left, top;
         }
 
         @media (pointer: coarse) {
@@ -1125,6 +1150,12 @@
             }
         }
     </style>
+    <noscript>
+        <style>
+            .reveal { opacity: 1 !important; transform: none !important; }
+            .cursor-follower { display: none !important; }
+        </style>
+    </noscript>
   </head>
 <body>
     <div class="cursor-follower" id="cursor"></div>
@@ -1704,8 +1735,8 @@
                     const p2 = particles[j];
                     const dx = p.x - p2.x;
                     const dy = p.y - p2.y;
-                    const dist = Math.sqrt(dx*dx + dy*dy);
-                    if (dist < 120) {
+                    const distSq = dx*dx + dy*dy;
+                    if (distSq < 14400) { // 120 * 120
                         ctx.beginPath();
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(p2.x, p2.y);
@@ -1767,6 +1798,7 @@
         });
 
         function animateCursor() {
+            if (!cursor) return;
             cursorX += (targetX - cursorX) * 0.12;
             cursorY += (targetY - cursorY) * 0.12;
             cursor.style.left = cursorX + 'px';
@@ -1777,19 +1809,27 @@
 
         document.querySelectorAll('a, button, .tilt').forEach(el => {
             el.addEventListener('mouseenter', () => {
-                cursor.style.width = '40px';
-                cursor.style.height = '40px';
-                cursor.style.background = 'var(--accent-glow-cyan)';
+                if (cursor) {
+                    cursor.style.width = '40px';
+                    cursor.style.height = '40px';
+                    cursor.style.background = 'var(--accent-glow-cyan)';
+                }
             });
             el.addEventListener('mouseleave', () => {
-                cursor.style.width = '20px';
-                cursor.style.height = '20px';
-                cursor.style.background = 'transparent';
+                if (cursor) {
+                    cursor.style.width = '20px';
+                    cursor.style.height = '20px';
+                    cursor.style.background = 'transparent';
+                }
             });
         });
 
-        window.addEventListener('mousedown', () => cursor.style.transform = 'translate(-50%, -50%) scale(0.7)');
-        window.addEventListener('mouseup', () => cursor.style.transform = 'translate(-50%, -50%) scale(1)');
+        window.addEventListener('mousedown', () => {
+            if (cursor) cursor.style.transform = 'translate(-50%, -50%) scale(0.7)';
+        });
+        window.addEventListener('mouseup', () => {
+            if (cursor) cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
 
         /* Part 4: Magnetic Buttons */
         document.querySelectorAll('.magnetic').forEach(btn => {
@@ -1886,17 +1926,14 @@
         const mobileToggle = document.getElementById('mobile-toggle');
         const navLinks = document.querySelector('.nav-links');
         mobileToggle.addEventListener('click', () => {
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-            if (navLinks.style.display === 'flex') {
-                navLinks.style.position = 'absolute';
-                navLinks.style.top = '100%';
-                navLinks.style.left = '0';
-                navLinks.style.width = '100%';
-                navLinks.style.flexDirection = 'column';
-                navLinks.style.background = 'var(--bg-surface)';
-                navLinks.style.padding = '40px';
-                navLinks.style.borderBottom = '1px solid var(--border-subtle)';
-            }
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
         });
 
         /* Parallax Mouse Effect */

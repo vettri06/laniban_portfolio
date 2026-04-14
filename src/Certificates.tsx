@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Award, X, ChevronLeft, ChevronRight, ZoomIn, Loader2, ArrowLeft } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Link } from 'react-router-dom'
 
 interface Certificate {
   id: string
   src: string
   name: string
-  date: string
 }
 
 const CERTIFICATES_PER_PAGE = 12
@@ -17,7 +15,6 @@ const certificates: Certificate[] = Array.from({ length: 23 }, (_, i) => ({
   id: `cert-${i + 1}`,
   src: `/certificates/certificate-${i + 1}.jpg`,
   name: `Certificate ${i + 1}`,
-  date: 'Apr 13, 2026', // Optional static date or we can just leave it out
 }))
 
 function LazyImage({
@@ -105,6 +102,13 @@ function Lightbox({
   onNext: () => void
 }) {
   const certificate = certificates[currentIndex]
+  const [error, setError] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  useEffect(() => {
+    setError(false)
+    setIsLoaded(false)
+  }, [currentIndex])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -139,11 +143,28 @@ function Lightbox({
 
       <div className="flex max-h-[88vh] w-full max-w-5xl flex-col items-center">
         <div className="relative flex h-full w-full items-center justify-center">
-          <img
-            src={certificate.src}
-            alt={certificate.name}
-            className="max-h-[74vh] max-w-full rounded-lg object-contain shadow-2xl sm:max-h-[80vh]"
-          />
+          {!isLoaded && !error && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-white/50" />
+            </div>
+          )}
+          {error ? (
+            <div className="flex flex-col items-center justify-center p-8 text-center text-white/70">
+              <Award className="mb-4 h-12 w-12 opacity-20" />
+              <p>Failed to load certificate image</p>
+            </div>
+          ) : (
+            <img
+              src={certificate.src}
+              alt={certificate.name}
+              onLoad={() => setIsLoaded(true)}
+              onError={() => setError(true)}
+              className={cn(
+                "max-h-[74vh] max-w-full rounded-lg object-contain shadow-2xl transition-opacity duration-300 sm:max-h-[80vh]",
+                isLoaded ? "opacity-100" : "opacity-0"
+              )}
+            />
+          )}
         </div>
         <div className="mt-3 text-center sm:mt-4">
           <h3 className="text-base font-medium text-white sm:text-lg">{certificate.name}</h3>
@@ -239,13 +260,13 @@ export default function Certificates() {
       {/* Header/Nav */}
       <header className="sticky top-0 z-30 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="flex h-14 w-full items-center justify-start px-3 sm:px-4 md:px-6">
-          <Link
-            to="/"
+          <a
+            href="/"
             className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Home
-          </Link>
+          </a>
         </div>
       </header>
 

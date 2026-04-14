@@ -1,19 +1,20 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
       input: {
-        main: new URL('./index.html', import.meta.url).pathname,
-        certificates: new URL('./certificates.html', import.meta.url).pathname,
+        main: path.resolve(__dirname, 'index.html'),
+        certificates: path.resolve(__dirname, 'certificates.html'),
       },
     },
   },
   resolve: {
     alias: {
-      '@': new URL('./src', import.meta.url).pathname,
+      '@': path.resolve(__dirname, './src'),
     },
   },
   server: {
@@ -21,7 +22,7 @@ export default defineConfig({
     strictPort: true,
     host: true,
     hmr: {
-      port: 3001, // Use different port for HMR to avoid conflicts
+      port: 3001,
     }
   }
 });
