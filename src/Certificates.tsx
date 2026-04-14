@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Award, X, ChevronLeft, ChevronRight, ZoomIn, Loader2, ArrowLeft } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Squares } from './components/Squares'
+import { TubesBackground } from './components/TubesBackground'
 
 interface Certificate {
   id: string
@@ -256,46 +258,63 @@ export default function Certificates() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
-      {/* Header/Nav */}
-      <header className="sticky top-0 z-30 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex h-14 w-full items-center justify-start px-3 sm:px-4 md:px-6">
-          <a
-            href="/"
-            className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Home
-          </a>
+    <TubesBackground className="min-h-screen bg-[#04070d]">
+      <div className="relative min-h-screen text-foreground overflow-hidden">
+        <div className="absolute inset-0 z-0 pointer-events-auto">
+          <Squares
+            speed={0.18}
+            squareSize={42}
+            direction="diagonal"
+            borderColor="rgba(255,255,255,0.12)"
+            hoverFillColor="rgba(255,255,255,0.10)"
+          />
         </div>
-      </header>
+        <div className="relative z-10 flex flex-col min-h-screen pointer-events-none">
+          <div className="pointer-events-auto flex flex-col flex-1">
+            {/* Header/Nav */}
+            <header className="sticky top-0 z-30 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+              <div className="flex h-14 w-full items-center justify-start px-3 sm:px-4 md:px-6">
+                <a
+                  href="/"
+                  className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Home
+                </a>
+              </div>
+            </header>
 
-      {/* Main Content */}
-      <main className="flex-1 px-3 py-6 sm:px-4 sm:py-8">
-        <div className="mb-8 flex flex-col items-center text-center sm:mb-10">
-          <div className="mb-3 inline-flex items-center justify-center rounded-full bg-primary/10 p-2.5 text-primary sm:mb-4 sm:p-3">
-            <Award className="h-7 w-7 sm:h-8 sm:w-8" />
+            {/* Main Content */}
+            <main className="flex-1 px-3 py-6 sm:px-4 sm:py-8">
+              <div className="mb-8 flex flex-col items-center text-center sm:mb-10">
+                <div className="mb-3 inline-flex items-center justify-center rounded-full bg-primary/10 p-2.5 text-primary sm:mb-4 sm:p-3">
+                  <Award className="h-7 w-7 sm:h-8 sm:w-8" />
+                </div>
+                <h1 className="mb-2 text-2xl font-bold tracking-tight sm:text-3xl text-white drop-shadow-[0_0_20px_rgba(0,0,0,1)]">Certificates & Achievements</h1>
+                <p className="max-w-2xl text-sm text-white/90 sm:text-base drop-shadow-md">
+                  Browse through my complete collection of {certificates.length} certificates and achievements.
+                  Click on any certificate to view it in full size.
+                </p>
+              </div>
+
+              <CertificateGrid certificates={certificates} onCertificateClick={openLightbox} />
+            </main>
           </div>
-          <h1 className="mb-2 text-2xl font-bold tracking-tight sm:text-3xl">Certificates & Achievements</h1>
-          <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">
-            Browse through my complete collection of {certificates.length} certificates and achievements.
-            Click on any certificate to view it in full size.
-          </p>
+
+          {/* Lightbox */}
+          {lightboxIndex !== null && (
+            <div className="pointer-events-auto">
+              <Lightbox
+                certificates={certificates}
+                currentIndex={lightboxIndex}
+                onClose={closeLightbox}
+                onPrev={goToPrev}
+                onNext={goToNext}
+              />
+            </div>
+          )}
         </div>
-
-        <CertificateGrid certificates={certificates} onCertificateClick={openLightbox} />
-      </main>
-
-      {/* Lightbox */}
-      {lightboxIndex !== null && (
-        <Lightbox
-          certificates={certificates}
-          currentIndex={lightboxIndex}
-          onClose={closeLightbox}
-          onPrev={goToPrev}
-          onNext={goToNext}
-        />
-      )}
-    </div>
+      </div>
+    </TubesBackground>
   )
 }

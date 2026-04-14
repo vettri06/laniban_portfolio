@@ -1181,8 +1181,11 @@
         </div>
     </nav>
 
+    <div id="tubes-stage" style="position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; background: #04070d;">
+        <canvas id="tubes-canvas" style="display: block; width: 100%; height: 100%;"></canvas>
+    </div>
+
     <section id="hero">
-        <canvas id="hero-canvas"></canvas>
         <div class="container hero-content">
             <span class="hero-greeting reveal">Hello, I'm</span>
             <h1 class="hero-name reveal">LANIBAN M</h1>
@@ -1672,88 +1675,66 @@
         </div>
     </footer>
 
-    <script>
-        /* Part 1: Particle Canvas */
-        const canvas = document.getElementById('hero-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let mouse = { x: null, y: null };
-        let isVisible = true;
+    <script type="module">
+        /* Part 1: Tubes Background */
+        const tubesCanvas = document.getElementById('tubes-canvas');
+        const maxTextureSize = 4096;
 
-        document.addEventListener('visibilitychange', () => {
-            isVisible = !document.hidden;
-        });
+        const sizeCanvasForGpu = () => {
+            if (!tubesCanvas) return;
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const width = Math.min(window.innerWidth, maxTextureSize);
+            const height = Math.min(window.innerHeight, maxTextureSize);
+            tubesCanvas.width = Math.floor(width * dpr);
+            tubesCanvas.height = Math.floor(height * dpr);
+        };
+        sizeCanvasForGpu();
+        window.addEventListener('resize', sizeCanvasForGpu);
 
-        function initCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            particles = [];
-            const particleCount = window.innerWidth < 768 ? 40 : 80;
-            for (let i = 0; i < particleCount; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5,
-                    size: Math.random() * 2 + 1
-                });
-            }
-        }
-
-        function drawParticles() {
-            if (!isVisible) {
-                requestAnimationFrame(drawParticles);
-                return;
-            }
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(0, 212, 255, 0.5)';
-            ctx.strokeStyle = 'rgba(0, 212, 255, 0.1)';
-
-            particles.forEach((p, i) => {
-                p.x += p.vx;
-                p.y += p.vy;
-
-                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-                // Mouse Repulsion
-                if (mouse.x) {
-                    const dx = p.x - mouse.x;
-                    const dy = p.y - mouse.y;
-                    const dist = Math.sqrt(dx*dx + dy*dy);
-                    if (dist < 140) {
-                        p.x += dx / 100;
-                        p.y += dy / 100;
-                    }
+        // Ensure content is still visible even if a visual effect fails.
+        const revealFallbackTimer = window.setTimeout(() => {
+            document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+        }, 1500);
+        
+        // Configuration for the tubes effect
+        const tubesOptions = {
+            tubes: {
+                colors: ["#f967fb", "#53bc28", "#6958d5"],
+                lights: {
+                    intensity: 450, // Reduced brightness for a softer glow
+                    colors: ["#83f36e", "#fe8a2e", "#ff008a", "#60aed5"]
                 }
+            }
+        };
 
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
+        let tubes;
+        const initTubes = async () => {
+            if (!tubesCanvas) return;
+            try {
+                const module = await import('https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js');
+                const TubesCursor = module.default;
+                tubes = TubesCursor(tubesCanvas, tubesOptions);
+            } catch (e) {
+                console.error('Failed to init TubesCursor:', e);
+                // Keep the page functional if GPU/background effect fails.
+                tubesCanvas.style.display = 'none';
+            }
+        };
+        initTubes();
 
-                for (let j = i + 1; j < particles.length; j++) {
-                    const p2 = particles[j];
-                    const dx = p.x - p2.x;
-                    const dy = p.y - p2.y;
-                    const distSq = dx*dx + dy*dy;
-                    if (distSq < 14400) { // 120 * 120
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                }
-            });
-            requestAnimationFrame(drawParticles);
-        }
+        const randomColors = (count) => {
+            return new Array(count)
+                .fill(0)
+                .map(() => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
+        };
 
-        window.addEventListener('resize', initCanvas);
-        window.addEventListener('mousemove', e => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
+        document.addEventListener('click', () => {
+            if (!tubesCanvas) return;
+            if (tubes && tubes.tubes) {
+                tubes.tubes.setColors(randomColors(3));
+                tubes.tubes.setLightsColors(randomColors(4));
+            }
         });
-        initCanvas();
-        drawParticles();
 
         /* Part 2: Typing Animation */
         const typedTextSpan = document.getElementById('typed-text');
@@ -1890,16 +1871,7 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal, #timeline').forEach(el => observer.observe(el));
-
-        /* Part 6: Navbar Scroll */
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 60) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
+        window.clearTimeout(revealFallbackTimer);
 
         /* Part 7: 3D Tilt Effect */
         document.querySelectorAll('.tilt').forEach(card => {
@@ -1948,6 +1920,16 @@
             const desc = document.querySelector('.hero-description');
             if (name) name.style.transform = `translate(${x}px, ${y}px)`;
             if (desc) desc.style.transform = `translate(${x * 0.5}px, ${y * 0.5}px)`;
+        });
+
+        // Global scroll listener for nav bar and cursor updates
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 60) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
         });
     </script>
 </body>

@@ -99,3 +99,69 @@ See `review.md` for complete list of bugs including:
 - Unused dependencies
 - Accessibility concerns
 - Performance optimizations needed
+
+---
+
+### UI/UX & Code Quality Improvements - COMPLETED
+
+**Date:** 2026-04-14
+
+**Fixes Applied:**
+
+#### 1. Layout & Animation Fixes
+- Added missing `--grid-gap` CSS variable to `index.html`.
+- Fixed mobile menu toggle bug by using CSS classes instead of inline styles.
+- Added null checks for custom cursor in `index.html`.
+- Optimized particle connection algorithm performance (O(n²) to distance-squared check).
+- Balanced 3D tilt animation intensity (very subtle for large boxes, active for small cards).
+- Replaced static particle system with global **Interactive 3D Tubes** background.
+
+#### 2. Certificates Gallery Fixes
+- Added image error handling and loading states to the lightbox in `Certificates.tsx`.
+- Removed redundant/hardcoded dates from certificates.
+- Fixed "Back to Home" navigation by using standard `<a>` tag to exit React context.
+- Integrated **TubesBackground** component into the React gallery for a cohesive look.
+
+#### 3. Codebase Optimization
+- Enabled TypeScript `strict: true` and fixed resulting type errors.
+- Removed 11 unused dependencies (e.g., `framer-motion`, `recharts`, `zod`).
+- Deleted unused `App.css` and redundant `Home.tsx` placeholder.
+- Added `<noscript>` fallback for better accessibility and SEO.
+- Configured Vercel rewrites to handle `/certificates.html` routing correctly.
+
+---
+
+### TubesBackground Component Integration - COMPLETED
+
+**Date:** 2026-04-14
+
+**Problem:** TubesBackground component was created but not showing in the UI.
+
+**Root Cause:**
+- `src/Home.tsx` was deleted during cleanup, leaving no component to render at root `/` route
+- `App.tsx` had an infinite redirect (`<Navigate to="/" replace />`) instead of rendering a component
+
+**Fixes Applied:**
+
+#### 1. Re-created `src/Home.tsx`
+- Integrated TubesBackground as the container
+- Added content with `pointer-events-auto` for clickable elements
+- Applied `text-white` with `drop-shadow-[0_0_20px_rgba(0,0,0,1)]` for visibility
+- Added click-to-randomize instructions at bottom
+
+#### 2. Fixed `src/App.tsx`
+- Changed root route from `<Navigate to="/" replace />` to `<Home />`
+- Removed unnecessary Navigate import
+
+**Key Implementation Details:**
+- Canvas needs explicit dark background: `bg-[#04070d]`
+- Text needs white color + drop shadows to be visible against neon tubes
+- Content wrapper needs `pointer-events-auto` for links/buttons to work
+- Tubes follow cursor movement in 3D space
+- Click anywhere to randomize tube and light colors
+
+**Files Modified:**
+- **CREATED:** `src/Home.tsx`
+- **MODIFIED:** `src/App.tsx`
+
+**Status:** ✅ Completed
